@@ -23,6 +23,7 @@ public class SceneManager {
                 return;
             }
 
+            System.out.println("Loading FXML from: " + loader.getLocation());
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
             stage.show();

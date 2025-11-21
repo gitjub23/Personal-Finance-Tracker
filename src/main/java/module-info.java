@@ -2,6 +2,10 @@ module com.example.financeapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires java.desktop;
+    requires nanohttpd;
+    requires jdk.httpserver;
+    requires java.net.http;
 
     opens com.example.financeapp to javafx.fxml;
     opens com.example.financeapp.controllers to javafx.fxml;

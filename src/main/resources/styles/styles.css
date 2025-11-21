@@ -200,3 +200,73 @@
     -fx-text-fill: #000820;
     -fx-font-weight: bold;
 }
+
+/* ----- Cards ----- */
+.summary-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 15 10 15 10;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+/* Labels */
+.summary-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666;
+}
+
+.income-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #0A8F08;
+    -fx-font-weight: bold;
+}
+
+.expense-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #C62828;
+    -fx-font-weight: bold;
+}
+
+.balance-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #1565C0;
+    -fx-font-weight: bold;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* ----- Floating Add Button ----- */
+.floating-add-btn {
+    -fx-background-color: #4285F4;
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 12, 0, 0, 3);
+}
+
+/* No scrollbar */
+.no-scrollbar .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+/* Bottom navigation bar */
+.bottom-nav {
+    -fx-background-color: white;
+    -fx-padding: 10 0 10 0;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1 0 0 0;
+}
+
+.nav-item:hover {
+    -fx-opacity: 0.7;
+    -fx-cursor: hand;
+}
+
+.nav-label {
+    -fx-font-size: 11px;
+}

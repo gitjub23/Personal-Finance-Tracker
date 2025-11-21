@@ -24,7 +24,7 @@
         <Label text="FinanceTracker" styleClass="title"/>
         <Label text="Create your account" styleClass="subtitle"/>
 
-        <!-- SignUp Card -->
+        <!-- Signup Card -->
         <VBox spacing="20" styleClass="auth-card" alignment="CENTER" maxWidth="360">
 
             <!-- Full Name -->
@@ -68,9 +68,9 @@
             </HBox>
 
             <!-- Terms Checkbox -->
-            <HBox spacing="10" alignment="CENTER_LEFT">
+            <HBox spacing="10" alignment="CENTER_LEFT" maxWidth="Infinity">
                 <CheckBox fx:id="agreeTerms"/>
-                <Label text="I agree to the Terms of Service and Privacy Policy"/>
+                <Label text="I agree to the Terms of Service and Privacy Policy" wrapText="true"/>
             </HBox>
 
             <!-- Create Account Button -->
@@ -80,7 +80,7 @@
                     onAction="#handleCreateAccount"
                     maxWidth="Infinity"/>
 
-            <!-- Go To Login -->
+            <!-- Switch to Login -->
             <HBox alignment="CENTER" spacing="5">
                 <Label text="Already have an account?"/>
                 <Hyperlink text="Sign In" onAction="#goToLogin"/>
@@ -93,7 +93,7 @@
             <HBox alignment="CENTER" spacing="12" maxWidth="300">
 
                 <!-- Google Button -->
-                <Button styleClass="social-btn" prefWidth="140">
+                <Button styleClass="social-btn" prefWidth="140" onAction="#handleGoogleSignup">
                     <graphic>
                         <HBox alignment="CENTER" spacing="8">
                             <ImageView fitHeight="18" preserveRatio="true">
@@ -105,7 +105,7 @@
                 </Button>
 
                 <!-- Apple Button -->
-                <Button styleClass="social-btn" prefWidth="140">
+                <Button styleClass="social-btn" prefWidth="140" onAction="#handleAppleSignup">
                     <graphic>
                         <HBox alignment="CENTER" spacing="8">
                             <ImageView fitHeight="20" preserveRatio="true">

@@ -28,7 +28,7 @@
         <VBox spacing="20" styleClass="auth-card" alignment="CENTER" maxWidth="360">
 
             <!-- Email -->
-            <HBox spacing="12" alignment="CENTER_LEFT" styleClass="input-field">
+            <HBox spacing="12" alignment="CENTER_LEFT" styleClass="input-field" maxWidth="Infinity">
                 <ImageView fitHeight="20" preserveRatio="true">
                     <Image url="@../icons/mail.png"/>
                 </ImageView>
@@ -38,7 +38,7 @@
             </HBox>
 
             <!-- Password -->
-            <HBox spacing="12" alignment="CENTER_LEFT" styleClass="input-field">
+            <HBox spacing="12" alignment="CENTER_LEFT" styleClass="input-field" maxWidth="Infinity">
                 <ImageView fitHeight="22" preserveRatio="true">
                     <Image url="@../icons/lock.png"/>
                 </ImageView>
@@ -75,8 +75,8 @@
             <!-- Social Buttons -->
             <HBox alignment="CENTER" spacing="12" maxWidth="300">
 
-                <!-- Google Button -->
-                <Button styleClass="social-btn" prefWidth="140">
+                <!-- Google -->
+                <Button styleClass="social-btn" prefWidth="140" onAction="#handleGoogleLogin">
                     <graphic>
                         <HBox alignment="CENTER" spacing="8">
                             <ImageView fitHeight="18" preserveRatio="true">
@@ -87,8 +87,8 @@
                     </graphic>
                 </Button>
 
-                <!-- Apple Button -->
-                <Button styleClass="social-btn" prefWidth="140">
+                <!-- Apple -->
+                <Button styleClass="social-btn" prefWidth="140" onAction="#handleAppleLogin">
                     <graphic>
                         <HBox alignment="CENTER" spacing="8">
                             <ImageView fitHeight="20" preserveRatio="true">

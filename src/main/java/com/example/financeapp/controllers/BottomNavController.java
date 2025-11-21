@@ -13,12 +13,13 @@ public class BottomNavController {
 
     @FXML
     private void initialize() {
-        homeButton.setOnMouseClicked(e -> navigate("dashboard"));
-        transactionsButton.setOnMouseClicked(e -> navigate("transactions"));
-        reportsButton.setOnMouseClicked(e -> navigate("reports"));
-        settingsButton.setOnMouseClicked(e -> navigate("settings"));
+        homeButton.setOnMouseClicked(e -> navigate("Dashboard"));
+        transactionsButton.setOnMouseClicked(e -> navigate("TransactionsList"));
+        reportsButton.setOnMouseClicked(e -> navigate("ReportsView"));
+        settingsButton.setOnMouseClicked(e -> navigate("SettingsView"));
     }
 
+    // Highlight the active nav item
     public void setActive(String active) {
         homeButton.getStyleClass().remove("nav-active");
         transactionsButton.getStyleClass().remove("nav-active");
@@ -26,25 +27,15 @@ public class BottomNavController {
         settingsButton.getStyleClass().remove("nav-active");
 
         switch (active) {
-            case "home" -> homeButton.getStyleClass().add("nav-active");
-            case "transactions" -> transactionsButton.getStyleClass().add("nav-active");
-            case "reports" -> reportsButton.getStyleClass().add("nav-active");
-            case "settings" -> settingsButton.getStyleClass().add("nav-active");
+            case "Dashboard" -> homeButton.getStyleClass().add("nav-active");
+            case "TransactionsList" -> transactionsButton.getStyleClass().add("nav-active");
+            case "ReportsView" -> reportsButton.getStyleClass().add("nav-active");
+            case "SettingsView" -> settingsButton.getStyleClass().add("nav-active");
         }
     }
 
     private void navigate(String target) {
         System.out.println("Navigate to: " + target);
-        switch (target) {
-            case "dashboard" -> SceneManager.switchTo("Dashboard");
-            case "transactions" -> SceneManager.switchTo("TransactionsList");
-            case "reports" -> SceneManager.switchTo("ReportsView"); // when you make it
-            case "settings" -> SceneManager.switchTo("SettingsView"); // when ready
-        }
-    }
-
-    @FXML
-    private void goToTransactions() {
-        SceneManager.switchTo("TransactionsList");
+        SceneManager.switchTo(target);
     }
 }

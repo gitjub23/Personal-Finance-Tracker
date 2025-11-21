@@ -10,6 +10,11 @@
             prefWidth="420" prefHeight="700"
             styleClass="background-gradient">
 
+    <!-- Declare all non-visual objects here -->
+    <fx:define>
+        <ToggleGroup fx:id="typeGroup"/>
+    </fx:define>
+
     <VBox alignment="TOP_CENTER" spacing="20"
           AnchorPane.topAnchor="20" AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0">
@@ -25,7 +30,7 @@
                 <Label text="Title" styleClass="field-label"/>
                 <HBox alignment="CENTER_LEFT" spacing="10" styleClass="input-field">
                     <ImageView fitHeight="20" preserveRatio="true">
-                        <Image url="@../../../../icons/edit.png"/>
+                        <Image url="@../icons/edit.png"/>
                     </ImageView>
                     <TextField fx:id="titleField" promptText="Enter title"/>
                 </HBox>
@@ -36,7 +41,7 @@
                 <Label text="Amount" styleClass="field-label"/>
                 <HBox alignment="CENTER_LEFT" spacing="10" styleClass="input-field">
                     <ImageView fitHeight="20" preserveRatio="true">
-                        <Image url="@../../../../icons/money.png"/>
+                        <Image url="@../icons/money.png"/>
                     </ImageView>
                     <TextField fx:id="amountField" promptText="0.00"/>
                 </HBox>
@@ -45,9 +50,6 @@
             <!-- Type (Income/Expense) -->
             <VBox spacing="5" alignment="TOP_LEFT">
                 <Label text="Type" styleClass="field-label"/>
-
-                <!-- Declare ToggleGroup OUTSIDE the HBox -->
-                <ToggleGroup fx:id="typeGroup"/>
 
                 <HBox spacing="10">
                     <RadioButton text="Income" fx:id="incomeRadio" toggleGroup="$typeGroup"/>
@@ -70,14 +72,17 @@
             <!-- Notes -->
             <VBox spacing="5" alignment="TOP_LEFT">
                 <Label text="Notes" styleClass="field-label"/>
-                <TextArea fx:id="notesField" prefRowCount="4" promptText="Optional notes..."
+                <TextArea fx:id="notesField" prefRowCount="4"
+                          promptText="Optional notes..."
                           styleClass="notes-area"/>
             </VBox>
 
             <!-- Buttons -->
             <HBox spacing="15" alignment="CENTER">
-                <Button text="Cancel" fx:id="cancelButton" styleClass="secondary-btn" prefWidth="120"/>
-                <Button text="Save" fx:id="saveButton" styleClass="primary-btn" prefWidth="120"/>
+                <Button text="Cancel" fx:id="cancelButton"
+                        styleClass="secondary-btn" prefWidth="120"/>
+                <Button text="Save" fx:id="saveButton"
+                        styleClass="primary-btn" prefWidth="120"/>
             </HBox>
 
         </VBox>

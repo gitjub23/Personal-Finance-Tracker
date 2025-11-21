@@ -1,7 +1,13 @@
 package com.example.financeapp.controllers;
 
+import com.example.financeapp.models.Transaction;
+import com.example.financeapp.models.TransactionManager;
+import com.example.financeapp.navigation.SceneManager;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.time.LocalDate;
 
 public class AddTransactionController {
 
@@ -25,21 +31,62 @@ public class AddTransactionController {
         incomeRadio.setSelected(true); // default
     }
 
+    // ====================== SAVE TRANSACTION ======================
     @FXML
     private void onSave() {
-        String title = titleField.getText();
-        String amount = amountField.getText();
-        String category = categoryCombo.getValue();
-        String type = ((RadioButton) typeGroup.getSelectedToggle()).getText();
-        String notes = notesField.getText();
-        String date = (datePicker.getValue() != null) ? datePicker.getValue().toString() : "";
 
-        System.out.println("Transaction Saved:");
-        System.out.println(title + " | " + amount + " | " + type + " | " + category + " | " + date);
+        // ---------- VALIDATION ----------
+        if (titleField.getText().isEmpty() ||
+                amountField.getText().isEmpty() ||
+                categoryCombo.getValue() == null ||
+                datePicker.getValue() == null) {
+
+            showAlert("Please fill out all fields.");
+            return;
+        }
+
+        double amount;
+
+        try {
+            amount = Double.parseDouble(amountField.getText());
+        } catch (Exception e) {
+            showAlert("Amount must be a number.");
+            return;
+        }
+
+        boolean isIncome = incomeRadio.isSelected();
+        if (!isIncome) amount = -Math.abs(amount); // expenses stored as negative
+
+
+        // ---------- CREATE TRANSACTION ----------
+        Transaction transaction = new Transaction(
+                titleField.getText(),
+                amount,
+                categoryCombo.getValue(),
+                datePicker.getValue(),
+                notesField.getText()
+        );
+
+        // ---------- SAVE ----------
+        TransactionManager.addTransaction(transaction);
+
+        // ---------- GO BACK TO TRANSACTIONS LIST ----------
+        SceneManager.switchTo("TransactionsList");
     }
 
+
+    // ====================== CANCEL BUTTON ======================
     @FXML
     private void onCancel() {
-        System.out.println("Transaction Cancelled");
+        SceneManager.switchTo("TransactionsList");
+    }
+
+
+    // ====================== ALERT HELPER ======================
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }
