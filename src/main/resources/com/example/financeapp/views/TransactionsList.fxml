@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.financeapp.controllers.TransactionsListController"
+            prefWidth="420" prefHeight="760"
+            styleClass="background-gradient">
+
+    <!-- Header -->
+    <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Transactions" styleClass="title"/>
+        <Label text="Manage your finances" styleClass="subtitle"/>
+    </VBox>
+
+    <!-- Scrollable area -->
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="80"
+                AnchorPane.leftAnchor="10"
+                AnchorPane.rightAnchor="10"
+                AnchorPane.bottomAnchor="20"
+                styleClass="no-scrollbar">
+
+        <VBox fx:id="transactionsContainer" spacing="15" padding="10"
+              prefWidth="380" alignment="TOP_CENTER"/>
+    </ScrollPane>
+
+    <!-- Add transaction button -->
+    <Button text="+ Add" fx:id="addButton"
+            styleClass="add-transaction-btn"
+            AnchorPane.bottomAnchor="25" AnchorPane.rightAnchor="25"/>
+
+</AnchorPane>

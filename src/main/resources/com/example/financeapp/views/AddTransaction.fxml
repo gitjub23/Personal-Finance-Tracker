@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.financeapp.controllers.AddTransactionController"
+            prefWidth="420" prefHeight="700"
+            styleClass="background-gradient">
+
+    <VBox alignment="TOP_CENTER" spacing="20"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0">
+
+        <!-- Header -->
+        <Label text="Add Transaction" styleClass="title"/>
+
+        <!-- Card Container -->
+        <VBox spacing="18" styleClass="auth-card" maxWidth="360" alignment="TOP_CENTER">
+
+            <!-- Title -->
+            <VBox spacing="5" alignment="TOP_LEFT">
+                <Label text="Title" styleClass="field-label"/>
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="input-field">
+                    <ImageView fitHeight="20" preserveRatio="true">
+                        <Image url="@../../../../icons/edit.png"/>
+                    </ImageView>
+                    <TextField fx:id="titleField" promptText="Enter title"/>
+                </HBox>
+            </VBox>
+
+            <!-- Amount -->
+            <VBox spacing="5" alignment="TOP_LEFT">
+                <Label text="Amount" styleClass="field-label"/>
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="input-field">
+                    <ImageView fitHeight="20" preserveRatio="true">
+                        <Image url="@../../../../icons/money.png"/>
+                    </ImageView>
+                    <TextField fx:id="amountField" promptText="0.00"/>
+                </HBox>
+            </VBox>
+
+            <!-- Type (Income/Expense) -->
+            <VBox spacing="5" alignment="TOP_LEFT">
+                <Label text="Type" styleClass="field-label"/>
+
+                <!-- Declare ToggleGroup OUTSIDE the HBox -->
+                <ToggleGroup fx:id="typeGroup"/>
+
+                <HBox spacing="10">
+                    <RadioButton text="Income" fx:id="incomeRadio" toggleGroup="$typeGroup"/>
+                    <RadioButton text="Expense" fx:id="expenseRadio" toggleGroup="$typeGroup"/>
+                </HBox>
+            </VBox>
+
+            <!-- Category -->
+            <VBox spacing="5" alignment="TOP_LEFT">
+                <Label text="Category" styleClass="field-label"/>
+                <ComboBox fx:id="categoryCombo" promptText="Select category" prefWidth="Infinity"/>
+            </VBox>
+
+            <!-- Date -->
+            <VBox spacing="5" alignment="TOP_LEFT">
+                <Label text="Date" styleClass="field-label"/>
+                <DatePicker fx:id="datePicker" />
+            </VBox>
+
+            <!-- Notes -->
+            <VBox spacing="5" alignment="TOP_LEFT">
+                <Label text="Notes" styleClass="field-label"/>
+                <TextArea fx:id="notesField" prefRowCount="4" promptText="Optional notes..."
+                          styleClass="notes-area"/>
+            </VBox>
+
+            <!-- Buttons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="Cancel" fx:id="cancelButton" styleClass="secondary-btn" prefWidth="120"/>
+                <Button text="Save" fx:id="saveButton" styleClass="primary-btn" prefWidth="120"/>
+            </HBox>
+
+        </VBox>
+
+    </VBox>
+
+</AnchorPane>
