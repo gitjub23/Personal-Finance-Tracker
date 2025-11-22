@@ -33,7 +33,6 @@ public class AuthController {
             User user = userService.createUser(request);
 
             // 2. SEND VERIFICATION EMAIL
-            // This generates the code and sends it via SMTP
             try {
                 emailService.sendVerificationOTP(user, "registration");
             } catch (Exception e) {

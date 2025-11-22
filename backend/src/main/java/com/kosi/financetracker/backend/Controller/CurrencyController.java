@@ -16,9 +16,7 @@ public class CurrencyController {
     @Autowired
     private CurrencyConversionService currencyService;
 
-    /**
-     * Get exchange rate between two currencies
-     */
+    
     @GetMapping("/rate")
     public ResponseEntity<?> getExchangeRate(
             @RequestParam String from,

@@ -134,7 +134,6 @@ public class BudgetController {
         }
     }
 
-    // DELETE budget
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBudget(@PathVariable Long id) {
         try {
@@ -149,7 +148,6 @@ public class BudgetController {
         }
     }
 
-    // GET budget status (for warnings/alerts)
     @GetMapping("/user/{userId}/status")
     public ResponseEntity<?> getBudgetStatus(@PathVariable Long userId) {
         try {
