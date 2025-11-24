@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
+import TransactionsDashboard from "./pages/transactions/Transactions";
 
 function App() {
   // Demo-mode authentication state
@@ -30,6 +31,15 @@ function App() {
           element={
             isAuthenticated
               ? <Home />
+              : <Navigate to="/" />
+          }
+        />
+        {/* Transactions route: requires authentication */}
+        <Route
+          path="/transactions"
+          element={
+            isAuthenticated
+              ? <TransactionsDashboard />
               : <Navigate to="/" />
           }
         />
