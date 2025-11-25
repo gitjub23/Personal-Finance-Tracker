@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import TransactionsDashboard from "./pages/transactions/Transactions";
+import Budgets from "./pages/budgets/Budgets";
+import Settings from "./pages/settings/Settings";
 
 function App() {
   // Demo-mode authentication state
@@ -40,6 +42,24 @@ function App() {
           element={
             isAuthenticated
               ? <TransactionsDashboard />
+              : <Navigate to="/" />
+          }
+        />
+        {/* Budgets route: requires authentication */}
+        <Route
+          path="/budgets"
+          element={
+            isAuthenticated
+              ? <Budgets />
+              : <Navigate to="/" />
+          }
+        />
+        {/* Settings route: requires authentication */}
+        <Route
+          path="/settings"
+          element={
+            isAuthenticated
+              ? <Settings />
               : <Navigate to="/" />
           }
         />
