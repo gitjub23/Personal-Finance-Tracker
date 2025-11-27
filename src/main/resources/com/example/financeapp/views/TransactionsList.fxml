@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.financeapp.controllers.TransactionsListController"
+            prefWidth="420" prefHeight="760"
+            styleClass="background-gradient">
+
+    <!-- ========== HEADER ========== -->
+    <top>
+        <VBox spacing="5">
+            <Label text="Transactions" styleClass="title"/>
+            <Label text="Manage your finances" styleClass="subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- ========== MAIN SCROLL AREA ========== -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="no-scrollbar">
+            <VBox fx:id="transactionsContainer"
+                  spacing="15"
+                  alignment="TOP_CENTER"/>
+        </ScrollPane>
+    </center>
+
+    <!-- ========== FLOATING ADD BUTTON ========== -->
+    <children>
+        <Button fx:id="addButton"
+                text="+"
+                layoutX="330"
+                layoutY="650"
+                prefWidth="60"
+                prefHeight="60"
+                styleClass="floating-add-btn"/>
+    </children>
+
+    <!-- ========== BOTTOM NAVIGATION ========== -->
+    <bottom>
+        <VBox>
+            <fx:include source="BottomNav.fxml"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>

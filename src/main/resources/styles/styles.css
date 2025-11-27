@@ -1,0 +1,272 @@
+.background-gradient {
+    -fx-background-color: linear-gradient(to bottom right, #eef3ff, #ffffff);
+}
+
+.auth-card {
+    -fx-background-color: white;
+    -fx-padding: 25 30 30 30;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666;
+}
+
+.tab-container {
+    -fx-background-color: #eeeeee;
+    -fx-background-radius: 30;
+    -fx-padding: 3;
+}
+
+.tab-active {
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20;
+}
+
+.tab-inactive {
+    -fx-background-color: transparent;
+    -fx-padding: 8 20;
+}
+
+.input-field {
+    -fx-background-color: #f3f3f3;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+}
+
+.primary-btn {
+    -fx-background-color: #000820;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+    -fx-padding: 12 0;
+}
+
+.social-btn {
+    -fx-background-color: #f6f6f6;
+    -fx-background-radius: 10;
+    -fx-padding: 10 18;
+}
+
+.divider-label {
+    -fx-text-fill: #777;
+    -fx-font-size: 12px;
+}
+
+.field-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.notes-area {
+    -fx-background-color: #f5f5f5;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-border-color: transparent;
+}
+
+.secondary-btn {
+    -fx-background-color: #e4e6eb;
+    -fx-text-fill: #333;
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+    -fx-padding: 10 0;
+}
+
+.no-scrollbar .viewport {
+    -fx-background-color: transparent;
+}
+
+.no-scrollbar {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Transaction card */
+.transaction-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 15;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+.transaction-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.transaction-category {
+    -fx-font-size: 12px;
+    -fx-background-color: #e6e8ef;
+    -fx-background-radius: 10;
+    -fx-padding: 2 8;
+    -fx-text-fill: #555;
+}
+
+.amount-income {
+    -fx-text-fill: #0a8a31;
+    -fx-font-weight: bold;
+}
+
+.amount-expense {
+    -fx-text-fill: #d22;
+    -fx-font-weight: bold;
+}
+
+.add-transaction-btn {
+    -fx-background-color: #000820;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 18;
+    -fx-padding: 10 20;
+}
+
+/* Summary cards */
+.summary-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
+    -fx-pref-width: 100;
+}
+
+.summary-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666;
+}
+
+.income-text {
+    -fx-text-fill: #0a8a31;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.expense-text {
+    -fx-text-fill: #d22;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.balance-text {
+    -fx-text-fill: #000;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.bottom-nav {
+    -fx-background-color: white;
+    -fx-padding: 10 20;
+    -fx-background-radius: 20 20 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, -1);
+}
+
+.nav-item {
+    -fx-padding: 5;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.nav-item:hover {
+    -fx-background-color: #f1f3f7;
+}
+
+.nav-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #666;
+}
+
+/* Active tab */
+.nav-active {
+    -fx-background-color: #e8ecff;
+}
+
+.nav-active .nav-label {
+    -fx-text-fill: #000820;
+    -fx-font-weight: bold;
+}
+
+/* ----- Cards ----- */
+.summary-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 15 10 15 10;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+/* Labels */
+.summary-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666;
+}
+
+.income-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #0A8F08;
+    -fx-font-weight: bold;
+}
+
+.expense-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #C62828;
+    -fx-font-weight: bold;
+}
+
+.balance-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #1565C0;
+    -fx-font-weight: bold;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* ----- Floating Add Button ----- */
+.floating-add-btn {
+    -fx-background-color: #4285F4;
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 12, 0, 0, 3);
+}
+
+/* No scrollbar */
+.no-scrollbar .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+/* Bottom navigation bar */
+.bottom-nav {
+    -fx-background-color: white;
+    -fx-padding: 10 0 10 0;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1 0 0 0;
+}
+
+.nav-item:hover {
+    -fx-opacity: 0.7;
+    -fx-cursor: hand;
+}
+
+.nav-label {
+    -fx-font-size: 11px;
+}
