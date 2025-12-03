@@ -1,10 +1,12 @@
 package com.example.financeapp.controllers;
 
 import com.example.financeapp.models.AnalyticsService;
+import com.example.financeapp.models.Transaction;
 import com.example.financeapp.models.TransactionManager;
 import com.example.financeapp.navigation.SceneManager;
 import com.example.financeapp.session.Session;
 import com.example.financeapp.models.User;
+import com.example.financeapp.util.CurrencyUtil;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
@@ -182,8 +184,7 @@ public class ReportsController {
     // ================= EXPORTS =================
 
     private void handleExportPdf() {
-        // NOTE: requires a PDF library like OpenPDF or iText.
-        // Example uses OpenPDF (com.github.librepdf:openpdf).
+        // NOTE: requires OpenPDF (com.github.librepdf:openpdf).
 
         javafx.stage.FileChooser chooser = new javafx.stage.FileChooser();
         chooser.setTitle("Export Report as PDF");
@@ -202,8 +203,17 @@ public class ReportsController {
             double expenses = transactionManager.getTotalExpenseForMonth(currentUser.getId(), currentMonth);
             double balance = income + expenses; // expenses are negative
 
-            java.util.List<String> recs =
+            List<String> recs =
                     analyticsService.generateMonthlyRecommendations(currentUser.getId(), currentMonth);
+
+            // Transactions for current month
+            List<Transaction> allTx = transactionManager.getTransactionsForUser(currentUser.getId());
+            List<Transaction> monthTx = allTx.stream()
+                    .filter(t -> t.getDate() != null &&
+                            YearMonth.from(t.getDate()).equals(currentMonth))
+                    .collect(Collectors.toList());
+
+            String symbol = CurrencyUtil.getSymbol(currentUser.getCurrencyCode());
 
             // ---- OpenPDF example ----
             com.lowagie.text.Document document = new com.lowagie.text.Document();
@@ -213,14 +223,53 @@ public class ReportsController {
             document.add(new com.lowagie.text.Paragraph("Finance Report - " + monthStr));
             document.add(new com.lowagie.text.Paragraph("User: " + currentUser.getUsername()));
             document.add(new com.lowagie.text.Paragraph(" "));
-            document.add(new com.lowagie.text.Paragraph(String.format("Income: %.2f", income)));
-            document.add(new com.lowagie.text.Paragraph(String.format("Expenses: %.2f", expenses)));
-            document.add(new com.lowagie.text.Paragraph(String.format("Balance: %.2f", balance)));
+
+            document.add(new com.lowagie.text.Paragraph(String.format("Income: %s%.2f", symbol, income)));
+            document.add(new com.lowagie.text.Paragraph(String.format("Expenses: %s%.2f", symbol, expenses)));
+            document.add(new com.lowagie.text.Paragraph(String.format("Balance: %s%.2f", symbol, balance)));
             document.add(new com.lowagie.text.Paragraph(" "));
 
+            // Smart Insights
             document.add(new com.lowagie.text.Paragraph("Smart Insights:"));
-            for (String rec : recs) {
-                document.add(new com.lowagie.text.Paragraph("• " + rec));
+            if (recs.isEmpty()) {
+                document.add(new com.lowagie.text.Paragraph("• No insights available for this month."));
+            } else {
+                for (String rec : recs) {
+                    document.add(new com.lowagie.text.Paragraph("• " + rec));
+                }
+            }
+            document.add(new com.lowagie.text.Paragraph(" "));
+
+            // Transactions table
+            document.add(new com.lowagie.text.Paragraph("Transactions (" + monthStr + "):"));
+            document.add(new com.lowagie.text.Paragraph(" "));
+
+            if (monthTx.isEmpty()) {
+                document.add(new com.lowagie.text.Paragraph("No transactions for this month."));
+            } else {
+                com.lowagie.text.pdf.PdfPTable table =
+                        new com.lowagie.text.pdf.PdfPTable(4); // Date, Title, Category, Amount
+                table.setWidthPercentage(100);
+
+                table.addCell("Date");
+                table.addCell("Title");
+                table.addCell("Category");
+                table.addCell("Amount");
+
+                for (Transaction t : monthTx) {
+                    table.addCell(t.getDate() != null ? t.getDate().toString() : "");
+                    String title = (t.getTitle() == null || t.getTitle().isBlank())
+                            ? t.getCategory()
+                            : t.getTitle();
+                    table.addCell(title != null ? title : "");
+                    table.addCell(t.getCategory() != null ? t.getCategory() : "");
+                    String amt = String.format("%s%.2f",
+                            symbol,
+                            t.getAmount());
+                    table.addCell(amt);
+                }
+
+                document.add(table);
             }
 
             document.close();
@@ -254,8 +303,15 @@ public class ReportsController {
             double expenses = transactionManager.getTotalExpenseForMonth(currentUser.getId(), currentMonth);
             double balance = income + expenses; // expenses are negative
 
-            java.util.List<String> recs =
+            List<String> recs =
                     analyticsService.generateMonthlyRecommendations(currentUser.getId(), currentMonth);
+
+            // Transactions for current month
+            List<Transaction> allTx = transactionManager.getTransactionsForUser(currentUser.getId());
+            List<Transaction> monthTx = allTx.stream()
+                    .filter(t -> t.getDate() != null &&
+                            YearMonth.from(t.getDate()).equals(currentMonth))
+                    .collect(Collectors.toList());
 
             org.apache.poi.xssf.usermodel.XSSFWorkbook workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
 
@@ -281,6 +337,37 @@ public class ReportsController {
             for (String rec : recs) {
                 org.apache.poi.ss.usermodel.Row row = insightsSheet.createRow(rowIndex++);
                 row.createCell(0).setCellValue(rec);
+            }
+
+            // Transactions sheet
+            org.apache.poi.ss.usermodel.Sheet txSheet = workbook.createSheet("Transactions");
+            org.apache.poi.ss.usermodel.Row txHeader = txSheet.createRow(0);
+            txHeader.createCell(0).setCellValue("Date");
+            txHeader.createCell(1).setCellValue("Title");
+            txHeader.createCell(2).setCellValue("Category");
+            txHeader.createCell(3).setCellValue("Amount");
+
+            int txRowIndex = 1;
+            for (Transaction t : monthTx) {
+                org.apache.poi.ss.usermodel.Row row = txSheet.createRow(txRowIndex++);
+
+                row.createCell(0).setCellValue(
+                        t.getDate() != null ? t.getDate().toString() : "");
+
+                String title = (t.getTitle() == null || t.getTitle().isBlank())
+                        ? t.getCategory()
+                        : t.getTitle();
+                row.createCell(1).setCellValue(title != null ? title : "");
+                row.createCell(2).setCellValue(t.getCategory() != null ? t.getCategory() : "");
+                row.createCell(3).setCellValue(t.getAmount()); // numeric (income positive, expenses negative)
+            }
+
+            // Autosize columns in each sheet
+            for (org.apache.poi.ss.usermodel.Sheet sheet : new org.apache.poi.ss.usermodel.Sheet[]{summarySheet, insightsSheet, txSheet}) {
+                int cols = sheet.getRow(0) != null ? sheet.getRow(0).getPhysicalNumberOfCells() : 0;
+                for (int c = 0; c < cols; c++) {
+                    sheet.autoSizeColumn(c);
+                }
             }
 
             try (java.io.FileOutputStream fos = new java.io.FileOutputStream(file)) {
