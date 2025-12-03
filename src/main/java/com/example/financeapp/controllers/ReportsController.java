@@ -113,7 +113,7 @@ public class ReportsController {
             infoLabel.setText("");
         }
 
-        // Sort by ABS(amount) desc and take top 5 (largest spenders)
+        // Sort by ABS(amount) desc and take top 5
         List<Map.Entry<String, Double>> top =
                 raw.entrySet().stream()
                         .sorted((a, b) -> Double.compare(
@@ -146,13 +146,12 @@ public class ReportsController {
         NumberAxis yAxis = (NumberAxis) topCategoriesChart.getYAxis();
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(0);
-        // Add a little headroom above the tallest bar
         double upper = (maxValue <= 0) ? 10 : maxValue * 1.2;
         yAxis.setUpperBound(upper);
         yAxis.setTickUnit(Math.max(1, upper / 5));
     }
 
-    // ================= SMART INSIGHTS / RECOMMENDATIONS =================
+    // ================= SMART INSIGHTS (APP-ONLY) =================
     private void loadRecommendations() {
         recommendationsContainer.getChildren().clear();
 
@@ -171,11 +170,11 @@ public class ReportsController {
             Label card = new Label(rec);
             card.setWrapText(true);
             card.setStyle(
-                    "-fx-background-color: rgba(255,255,255,0.1);" +
+                    "-fx-background-color: rgba(0,0,0,0.04);" +  // light grey card
                             "-fx-padding: 8;" +
                             "-fx-background-radius: 8;" +
                             "-fx-font-size: 12px;" +
-                            "-fx-text-fill: #ffffff;"
+                            "-fx-text-fill: #333333;"                    // dark text
             );
             recommendationsContainer.getChildren().add(card);
         }
@@ -195,16 +194,12 @@ public class ReportsController {
         if (file == null) return;
 
         try {
-            // Collect some basic data
             YearMonth currentMonth = YearMonth.now();
             String monthStr = currentMonth.format(MONTH_FORMAT);
 
             double income = transactionManager.getTotalIncomeForMonth(currentUser.getId(), currentMonth);
             double expenses = transactionManager.getTotalExpenseForMonth(currentUser.getId(), currentMonth);
             double balance = income + expenses; // expenses are negative
-
-            List<String> recs =
-                    analyticsService.generateMonthlyRecommendations(currentUser.getId(), currentMonth);
 
             // Transactions for current month
             List<Transaction> allTx = transactionManager.getTransactionsForUser(currentUser.getId());
@@ -215,7 +210,6 @@ public class ReportsController {
 
             String symbol = CurrencyUtil.getSymbol(currentUser.getCurrencyCode());
 
-            // ---- OpenPDF example ----
             com.lowagie.text.Document document = new com.lowagie.text.Document();
             com.lowagie.text.pdf.PdfWriter.getInstance(document, new java.io.FileOutputStream(file));
             document.open();
@@ -229,18 +223,7 @@ public class ReportsController {
             document.add(new com.lowagie.text.Paragraph(String.format("Balance: %s%.2f", symbol, balance)));
             document.add(new com.lowagie.text.Paragraph(" "));
 
-            // Smart Insights
-            document.add(new com.lowagie.text.Paragraph("Smart Insights:"));
-            if (recs.isEmpty()) {
-                document.add(new com.lowagie.text.Paragraph("• No insights available for this month."));
-            } else {
-                for (String rec : recs) {
-                    document.add(new com.lowagie.text.Paragraph("• " + rec));
-                }
-            }
-            document.add(new com.lowagie.text.Paragraph(" "));
-
-            // Transactions table
+            // Transactions table (only)
             document.add(new com.lowagie.text.Paragraph("Transactions (" + monthStr + "):"));
             document.add(new com.lowagie.text.Paragraph(" "));
 
@@ -263,9 +246,7 @@ public class ReportsController {
                             : t.getTitle();
                     table.addCell(title != null ? title : "");
                     table.addCell(t.getCategory() != null ? t.getCategory() : "");
-                    String amt = String.format("%s%.2f",
-                            symbol,
-                            t.getAmount());
+                    String amt = String.format("%s%.2f", symbol, t.getAmount());
                     table.addCell(amt);
                 }
 
@@ -303,9 +284,6 @@ public class ReportsController {
             double expenses = transactionManager.getTotalExpenseForMonth(currentUser.getId(), currentMonth);
             double balance = income + expenses; // expenses are negative
 
-            List<String> recs =
-                    analyticsService.generateMonthlyRecommendations(currentUser.getId(), currentMonth);
-
             // Transactions for current month
             List<Transaction> allTx = transactionManager.getTransactionsForUser(currentUser.getId());
             List<Transaction> monthTx = allTx.stream()
@@ -329,16 +307,6 @@ public class ReportsController {
             r3.createCell(0).setCellValue("Balance");
             r3.createCell(1).setCellValue(balance);
 
-            // Insights sheet
-            org.apache.poi.ss.usermodel.Sheet insightsSheet = workbook.createSheet("Insights");
-            org.apache.poi.ss.usermodel.Row header = insightsSheet.createRow(0);
-            header.createCell(0).setCellValue("Smart Insights");
-            int rowIndex = 1;
-            for (String rec : recs) {
-                org.apache.poi.ss.usermodel.Row row = insightsSheet.createRow(rowIndex++);
-                row.createCell(0).setCellValue(rec);
-            }
-
             // Transactions sheet
             org.apache.poi.ss.usermodel.Sheet txSheet = workbook.createSheet("Transactions");
             org.apache.poi.ss.usermodel.Row txHeader = txSheet.createRow(0);
@@ -359,11 +327,11 @@ public class ReportsController {
                         : t.getTitle();
                 row.createCell(1).setCellValue(title != null ? title : "");
                 row.createCell(2).setCellValue(t.getCategory() != null ? t.getCategory() : "");
-                row.createCell(3).setCellValue(t.getAmount()); // numeric (income positive, expenses negative)
+                row.createCell(3).setCellValue(t.getAmount()); // numeric
             }
 
-            // Autosize columns in each sheet
-            for (org.apache.poi.ss.usermodel.Sheet sheet : new org.apache.poi.ss.usermodel.Sheet[]{summarySheet, insightsSheet, txSheet}) {
+            // Autosize columns
+            for (org.apache.poi.ss.usermodel.Sheet sheet : new org.apache.poi.ss.usermodel.Sheet[]{summarySheet, txSheet}) {
                 int cols = sheet.getRow(0) != null ? sheet.getRow(0).getPhysicalNumberOfCells() : 0;
                 for (int c = 0; c < cols; c++) {
                     sheet.autoSizeColumn(c);
