@@ -1,8 +1,11 @@
 package com.example.financeapp.controllers;
 
 import com.example.financeapp.auth.OAuthService;
+import com.example.financeapp.models.UserManager;
 import com.example.financeapp.navigation.SceneManager;
+import com.example.financeapp.session.Session;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -24,35 +27,46 @@ public class SignUpController {
     @FXML
     private CheckBox agreeTerms;
 
+    private final UserManager userManager = new UserManager();
+
     // ==========================
     // Create Account (Normal method)
     // ==========================
     @FXML
     public void handleCreateAccount() {
 
-        System.out.println("SIGNUP CLICKED");
+        String fullName = fullNameField.getText().trim();
+        String email = emailField.getText().trim();
+        String password = passwordField.getText().trim();
+        String confirmPassword = confirmPasswordField.getText().trim();
 
-        if (fullNameField.getText().isEmpty()
-                || emailField.getText().isEmpty()
-                || passwordField.getText().isEmpty()) {
-            System.out.println("Please fill out all fields.");
+        // Basic validation
+        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            showError("Please fill out all fields.");
             return;
         }
 
-        if (!passwordField.getText().equals(confirmPasswordField.getText())) {
-            System.out.println("Passwords do not match.");
+        if (!password.equals(confirmPassword)) {
+            showError("Passwords do not match.");
             return;
         }
 
         if (!agreeTerms.isSelected()) {
-            System.out.println("You must agree to the terms.");
+            showError("You must agree to the terms.");
             return;
         }
 
-        System.out.println("Account created successfully!");
+        // Register user using UserManager
+        // We’ll treat fullName as username, goal is empty for now.
+        boolean success = userManager.register(fullName, email, password, "");
 
-        // After manual account creation → go to login screen
-        SceneManager.switchTo("LoginView");
+        if (success) {
+            showInfo("Account created successfully! You can now log in.");
+            // After manual account creation → go to login screen
+            SceneManager.switchTo("LoginView");
+        } else {
+            showError("Could not create account. Email or username may already be in use.");
+        }
     }
 
     // ==========================
@@ -60,7 +74,6 @@ public class SignUpController {
     // ==========================
     @FXML
     public void goToLogin() {
-        System.out.println("Switching to LoginView");
         SceneManager.switchTo("LoginView");
     }
 
@@ -69,18 +82,17 @@ public class SignUpController {
     // ==========================
     @FXML
     private void handleGoogleSignup() {
-        System.out.println("Google Sign-Up clicked");
-
         OAuthService.loginWithGoogle(new OAuthService.OAuthCallback() {
             @Override
             public void onSuccess(String tokenJson) {
-                System.out.println("Google Sign-Up successful!");
+                // Mark as logged in via OAuth
+                Session.setOAuthLogin(tokenJson);
                 SceneManager.switchTo("Dashboard");   // redirect after success
             }
 
             @Override
             public void onError(String message) {
-                System.out.println("Google Sign-Up ERROR: " + message);
+                showError("Google Sign-Up ERROR: " + message);
             }
         });
     }
@@ -90,19 +102,34 @@ public class SignUpController {
     // ==========================
     @FXML
     private void handleAppleSignup() {
-        System.out.println("Apple Sign-Up clicked");
-
         OAuthService.loginWithApple(new OAuthService.OAuthCallback() {
             @Override
             public void onSuccess(String tokenJson) {
-                System.out.println("Apple Sign-Up successful!");
+                Session.setOAuthLogin(tokenJson);
                 SceneManager.switchTo("Dashboard");   // redirect after success
             }
 
             @Override
             public void onError(String message) {
-                System.out.println("Apple Sign-Up ERROR: " + message);
+                showError("Apple Sign-Up ERROR: " + message);
             }
         });
+    }
+
+    // ==========================
+    // Helpers
+    // ==========================
+    private void showError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Sign-Up Failed");
+        alert.setContentText(msg);
+        alert.show();
+    }
+
+    private void showInfo(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Sign-Up");
+        alert.setContentText(msg);
+        alert.show();
     }
 }

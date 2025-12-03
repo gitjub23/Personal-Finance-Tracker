@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
@@ -11,39 +10,47 @@
             prefWidth="420" prefHeight="760"
             styleClass="background-gradient">
 
-    <!-- ========== HEADER ========== -->
+    <!-- HEADER -->
     <top>
-        <VBox spacing="5">
+        <VBox spacing="4">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
             <Label text="Transactions" styleClass="title"/>
             <Label text="Manage your finances" styleClass="subtitle"/>
         </VBox>
     </top>
 
-    <!-- ========== MAIN SCROLL AREA ========== -->
+    <!-- MAIN CONTENT -->
     <center>
-        <ScrollPane fitToWidth="true" styleClass="no-scrollbar">
-            <VBox fx:id="transactionsContainer"
-                  spacing="15"
-                  alignment="TOP_CENTER"/>
-        </ScrollPane>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Visible Add button at top-right -->
+            <HBox alignment="CENTER_RIGHT">
+                <Button fx:id="addButton"
+                        text="+ Add Transaction"
+                        styleClass="add-transaction-btn"/>
+            </HBox>
+
+            <!-- Transactions list -->
+            <ScrollPane fitToWidth="true" styleClass="no-scrollbar">
+                <VBox fx:id="transactionsContainer"
+                      spacing="12"
+                      alignment="TOP_CENTER">
+                    <padding>
+                        <Insets top="20" right="0" bottom="10" left="0"/>
+                    </padding>
+                </VBox>
+            </ScrollPane>
+        </VBox>
     </center>
 
-    <!-- ========== FLOATING ADD BUTTON ========== -->
-    <children>
-        <Button fx:id="addButton"
-                text="+"
-                layoutX="330"
-                layoutY="650"
-                prefWidth="60"
-                prefHeight="60"
-                styleClass="floating-add-btn"/>
-    </children>
-
-    <!-- ========== BOTTOM NAVIGATION ========== -->
+    <!-- BOTTOM NAV -->
     <bottom>
-        <VBox>
-            <fx:include source="BottomNav.fxml"/>
-        </VBox>
+        <fx:include source="BottomNav.fxml"/>
     </bottom>
 
 </BorderPane>

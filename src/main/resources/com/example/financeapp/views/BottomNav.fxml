@@ -14,7 +14,12 @@
       prefWidth="420">
 
     <!-- Home -->
-    <VBox alignment="CENTER" spacing="3" fx:id="homeButton" styleClass="nav-item">
+    <VBox alignment="CENTER"
+          spacing="3"
+          fx:id="homeButton"
+          styleClass="nav-item"
+          HBox.hgrow="ALWAYS"
+          maxWidth="Infinity">
         <ImageView fitHeight="22" preserveRatio="true">
             <Image url="@../icons/home.png"/>
         </ImageView>
@@ -22,7 +27,12 @@
     </VBox>
 
     <!-- Transactions -->
-    <VBox alignment="CENTER" spacing="3" fx:id="transactionsButton" styleClass="nav-item">
+    <VBox alignment="CENTER"
+          spacing="3"
+          fx:id="transactionsButton"
+          styleClass="nav-item"
+          HBox.hgrow="ALWAYS"
+          maxWidth="Infinity">
         <ImageView fitHeight="22" preserveRatio="true">
             <Image url="@../icons/transactions.png"/>
         </ImageView>
@@ -30,7 +40,12 @@
     </VBox>
 
     <!-- Reports -->
-    <VBox alignment="CENTER" spacing="3" fx:id="reportsButton" styleClass="nav-item">
+    <VBox alignment="CENTER"
+          spacing="3"
+          fx:id="reportsButton"
+          styleClass="nav-item"
+          HBox.hgrow="ALWAYS"
+          maxWidth="Infinity">
         <ImageView fitHeight="22" preserveRatio="true">
             <Image url="@../icons/piechart.png"/>
         </ImageView>
@@ -38,7 +53,12 @@
     </VBox>
 
     <!-- Settings -->
-    <VBox alignment="CENTER" spacing="3" fx:id="settingsButton" styleClass="nav-item">
+    <VBox alignment="CENTER"
+          spacing="3"
+          fx:id="settingsButton"
+          styleClass="nav-item"
+          HBox.hgrow="ALWAYS"
+          maxWidth="Infinity">
         <ImageView fitHeight="22" preserveRatio="true">
             <Image url="@../icons/settings.png"/>
         </ImageView>

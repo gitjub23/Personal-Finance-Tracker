@@ -80,8 +80,10 @@
             <!-- Buttons -->
             <HBox spacing="15" alignment="CENTER">
                 <Button text="Cancel" fx:id="cancelButton"
+                        onAction="#onCancel"
                         styleClass="secondary-btn" prefWidth="120"/>
                 <Button text="Save" fx:id="saveButton"
+                        onAction="#onSave"
                         styleClass="primary-btn" prefWidth="120"/>
             </HBox>
 

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.financeapp.controllers.SettingsController"
+            prefWidth="420" prefHeight="760"
+            styleClass="background-gradient">
+
+    <!-- HEADER -->
+    <top>
+        <VBox spacing="4">
+            <padding><Insets top="20" right="20" bottom="10" left="20"/></padding>
+            <Label text="Settings" styleClass="title"/>
+            <Label text="Application and profile preferences" styleClass="subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="no-scrollbar">
+            <VBox spacing="20">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+                <!-- Account -->
+                <VBox spacing="8">
+                    <Label text="Account" styleClass="section-title"/>
+
+                    <Label text="Username"/>
+                    <TextField fx:id="usernameField" promptText="Your username"/>
+
+                    <Label text="Email"/>
+                    <TextField fx:id="emailField" promptText="your@email.com"/>
+
+                    <Button fx:id="updateAccountButton"
+                            text="Update Account"
+                            prefHeight="35"/>
+                </VBox>
+
+                <!-- Change Password -->
+                <VBox spacing="8">
+                    <Label text="Change Password" styleClass="section-title"/>
+
+                    <PasswordField fx:id="currentPasswordField"
+                                   promptText="Current password"/>
+                    <PasswordField fx:id="newPasswordField"
+                                   promptText="New password"/>
+                    <PasswordField fx:id="confirmPasswordField"
+                                   promptText="Confirm new password"/>
+
+                    <Button fx:id="changePasswordButton"
+                            text="Change Password"
+                            prefHeight="35"/>
+                </VBox>
+
+                <!-- Currency -->
+                <VBox spacing="8">
+                    <Label text="Preferred Currency" styleClass="section-title"/>
+                    <ComboBox fx:id="currencyCombo" prefWidth="200"/>
+                </VBox>
+
+                <!-- Goal -->
+                <VBox spacing="8">
+                    <Label text="Financial Goal" styleClass="section-title"/>
+                    <TextField fx:id="goalField" promptText="e.g. Save $5000"/>
+                </VBox>
+
+                <!--Budget-->
+                <TitledPane text="Budgets" expanded="false">
+                    <content>
+                        <VBox spacing="10">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+
+                            <!-- Add / create budget -->
+                            <HBox spacing="10">
+                                <Label text="Category:"/>
+                                <ComboBox fx:id="budgetCategoryBox" prefWidth="120"/>
+
+                                <Label text="Monthly limit:"/>
+                                <TextField fx:id="budgetLimitField" promptText="e.g. 200"/>
+
+                                <Button fx:id="addBudgetButton" text="Add / Update"/>
+                            </HBox>
+
+                            <Separator/>
+
+                            <!-- Existing budgets -->
+                            <VBox fx:id="budgetListContainer" spacing="8"/>
+                        </VBox>
+                    </content>
+                </TitledPane>
+
+                <!-- Save general settings -->
+                <Button text="Save Settings" fx:id="saveButton" prefHeight="40"/>
+
+                <!-- Logout -->
+                <Button text="Logout" fx:id="logoutButton"
+                        style="-fx-background-color: #d9534f; -fx-text-fill: white;"
+                        prefHeight="40"/>
+
+                <!-- Danger zone -->
+                <Separator/>
+                <Label text="Danger Zone" styleClass="section-title"/>
+
+                <!-- Delete account -->
+                <Button text="Delete Account" fx:id="deleteAccountButton"
+                        style="-fx-background-color: #c62828; -fx-text-fill: white;"
+                        prefHeight="40"/>
+
+                <!-- Info Label -->
+                <Label fx:id="infoLabel"
+                       text="" style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- BOTTOM NAV -->
+    <bottom>
+        <fx:include source="BottomNav.fxml" fx:id="bottomNav"/>
+    </bottom>
+
+</BorderPane>

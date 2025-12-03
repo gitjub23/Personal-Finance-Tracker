@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.PieChart?>
@@ -53,6 +52,11 @@
                 </VBox>
             </HBox>
 
+            <!-- Budget alerts section -->
+            <VBox fx:id="budgetAlertsContainer" spacing="4" prefWidth="Infinity">
+                <!-- will be filled in by controller -->
+            </VBox>
+
             <!-- Recent Transactions Label -->
             <Label text="Recent Transactions" styleClass="section-title"/>
 
@@ -76,21 +80,10 @@
     </center>
 
 
-    <!-- ================= FLOATING ADD BUTTON ================= -->
-    <children>
-        <Button text="+"
-                fx:id="addButton"
-                layoutX="330"
-                layoutY="650"
-                prefWidth="60"
-                prefHeight="60"
-                styleClass="floating-add-btn"/>
-    </children>
-
-
     <!-- ================= BOTTOM NAVIGATION ================= -->
     <bottom>
-        <fx:include source="BottomNav.fxml"/>
+        <fx:include source="BottomNav.fxml" fx:id="bottomNav"/>
     </bottom>
+
 
 </BorderPane>

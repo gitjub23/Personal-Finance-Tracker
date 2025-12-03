@@ -1,7 +1,9 @@
+/* ===== Global Background ===== */
 .background-gradient {
     -fx-background-color: linear-gradient(to bottom right, #eef3ff, #ffffff);
 }
 
+/* ===== Auth Card ===== */
 .auth-card {
     -fx-background-color: white;
     -fx-padding: 25 30 30 30;
@@ -9,6 +11,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);
 }
 
+/* ===== Titles & Text ===== */
 .title {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
@@ -19,6 +22,13 @@
     -fx-text-fill: #666;
 }
 
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* ===== Tabs (on auth screen) ===== */
 .tab-container {
     -fx-background-color: #eeeeee;
     -fx-background-radius: 30;
@@ -37,6 +47,7 @@
     -fx-padding: 8 20;
 }
 
+/* ===== Inputs & Buttons ===== */
 .input-field {
     -fx-background-color: #f3f3f3;
     -fx-background-radius: 12;
@@ -51,20 +62,28 @@
     -fx-padding: 12 0;
 }
 
+.secondary-btn {
+    -fx-background-color: #e4e6eb;
+    -fx-text-fill: #333;
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+    -fx-padding: 10 0;
+}
+
 .social-btn {
     -fx-background-color: #f6f6f6;
     -fx-background-radius: 10;
     -fx-padding: 10 18;
 }
 
-.divider-label {
-    -fx-text-fill: #777;
-    -fx-font-size: 12px;
-}
-
 .field-label {
     -fx-font-weight: bold;
     -fx-text-fill: #333;
+}
+
+.divider-label {
+    -fx-text-fill: #777;
+    -fx-font-size: 12px;
 }
 
 .notes-area {
@@ -74,24 +93,22 @@
     -fx-border-color: transparent;
 }
 
-.secondary-btn {
-    -fx-background-color: #e4e6eb;
-    -fx-text-fill: #333;
-    -fx-background-radius: 10;
-    -fx-font-size: 14px;
-    -fx-padding: 10 0;
+/* ===== ScrollPane (no visible scrollbar) ===== */
+.no-scrollbar {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 .no-scrollbar .viewport {
     -fx-background-color: transparent;
 }
 
-.no-scrollbar {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
+.no-scrollbar .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
 }
 
-/* Transaction card */
+/* ===== Transaction Card ===== */
 .transaction-card {
     -fx-background-color: white;
     -fx-background-radius: 15;
@@ -131,77 +148,7 @@
     -fx-padding: 10 20;
 }
 
-/* Summary cards */
-.summary-card {
-    -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-padding: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
-    -fx-pref-width: 100;
-}
-
-.summary-label {
-    -fx-font-size: 12px;
-    -fx-text-fill: #666;
-}
-
-.income-text {
-    -fx-text-fill: #0a8a31;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.expense-text {
-    -fx-text-fill: #d22;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.balance-text {
-    -fx-text-fill: #000;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.section-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333;
-}
-
-.bottom-nav {
-    -fx-background-color: white;
-    -fx-padding: 10 20;
-    -fx-background-radius: 20 20 0 0;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, -1);
-}
-
-.nav-item {
-    -fx-padding: 5;
-    -fx-background-radius: 12;
-    -fx-cursor: hand;
-}
-
-.nav-item:hover {
-    -fx-background-color: #f1f3f7;
-}
-
-.nav-label {
-    -fx-font-size: 11px;
-    -fx-text-fill: #666;
-}
-
-/* Active tab */
-.nav-active {
-    -fx-background-color: #e8ecff;
-}
-
-.nav-active .nav-label {
-    -fx-text-fill: #000820;
-    -fx-font-weight: bold;
-}
-
-/* ----- Cards ----- */
+/* ===== Summary Cards ===== */
 .summary-card {
     -fx-background-color: white;
     -fx-background-radius: 12;
@@ -209,7 +156,6 @@
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
 }
 
-/* Labels */
 .summary-label {
     -fx-font-size: 13px;
     -fx-text-fill: #666;
@@ -233,13 +179,7 @@
     -fx-font-weight: bold;
 }
 
-.section-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333;
-}
-
-/* ----- Floating Add Button ----- */
+/* ===== Floating Add Button ===== */
 .floating-add-btn {
     -fx-background-color: #4285F4;
     -fx-text-fill: white;
@@ -248,13 +188,7 @@
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 12, 0, 0, 3);
 }
 
-/* No scrollbar */
-.no-scrollbar .scroll-bar {
-    -fx-opacity: 0;
-    -fx-pref-width: 0;
-}
-
-/* Bottom navigation bar */
+/* ===== Bottom Navigation Bar ===== */
 .bottom-nav {
     -fx-background-color: white;
     -fx-padding: 10 0 10 0;
@@ -262,11 +196,66 @@
     -fx-border-width: 1 0 0 0;
 }
 
-.nav-item:hover {
-    -fx-opacity: 0.7;
+/* Each nav item (VBox) */
+.nav-item {
+    -fx-alignment: center;
+    -fx-spacing: 4;
+    -fx-padding: 6 0 4 0;
+    -fx-background-radius: 16;
     -fx-cursor: hand;
 }
 
+.nav-item:hover {
+    -fx-background-color: #f1f3f7;
+    -fx-opacity: 0.9;
+}
+
+/* Icon + label text */
 .nav-label {
     -fx-font-size: 11px;
+    -fx-text-fill: #666;
+}
+
+/* ===== ACTIVE NAV ITEM ===== */
+.nav-active {
+    -fx-background-color: rgba(66, 133, 244, 0.18);   /* noticeable pill */
+    -fx-background-radius: 16;
+}
+
+.nav-active .nav-label {
+    -fx-text-fill: #000820;
+    -fx-font-weight: bold;
+}
+
+/* ===== Pie Chart per-category colors ===== */
+/* Each slice gets: .chart-pie + .pie-<category> */
+
+.chart-pie.pie-food {
+    -fx-pie-color: #FF6B6B;
+}
+
+.chart-pie.pie-transport,
+.chart-pie.pie-transportation {
+    -fx-pie-color: #4ECDC4;
+}
+
+.chart-pie.pie-entertainment {
+    -fx-pie-color: #FFD93D;
+}
+
+.chart-pie.pie-bills {
+    -fx-pie-color: #1A535C;
+}
+
+.chart-pie.pie-health {
+    -fx-pie-color: #FF9F1C;
+}
+
+.chart-pie.pie-shopping {
+    -fx-pie-color: #9B5DE5;
+}
+
+.chart-pie.pie-others,
+.chart-pie.pie-other {
+    -fx-pie-color: #A0A0A0;
 }

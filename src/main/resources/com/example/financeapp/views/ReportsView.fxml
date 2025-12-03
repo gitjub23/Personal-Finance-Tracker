@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ScrollPane?>
+
+<?import javafx.scene.control.Button?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.financeapp.controllers.ReportsController"
+            prefWidth="420" prefHeight="760"
+            styleClass="background-gradient">
+
+    <!-- HEADER -->
+    <top>
+        <VBox spacing="4">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+
+            <Label text="Reports" styleClass="title"/>
+            <Label fx:id="periodLabel"
+                   text="Last 6 months overview"
+                   styleClass="subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="no-scrollbar">
+            <VBox spacing="20">
+                <padding>
+                    <Insets top="10" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Income vs Expense Trend -->
+                <VBox spacing="8">
+                    <HBox>
+                        <Label text="Income vs Expense Trend" styleClass="section-title"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="exportPdfButton" text="Export PDF" />
+                        <Button fx:id="exportExcelButton" text="Export Excel" />
+                    </HBox>
+
+                    <LineChart fx:id="incomeExpenseChart" legendVisible="true" prefHeight="220">
+                        <xAxis>
+                            <CategoryAxis label="Month"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Amount"/>
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Top Expense Categories -->
+                <VBox spacing="8">
+                    <HBox>
+                        <Label text="Top Expense Categories (This Month)" styleClass="section-title"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="monthLabel"
+                               text=""
+                               style="-fx-font-size: 11px; -fx-text-fill: #888;"/>
+                    </HBox>
+
+                    <BarChart fx:id="topCategoriesChart" legendVisible="false" prefHeight="220">
+                        <xAxis>
+                            <CategoryAxis label="Category"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Amount ($)"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Smart Insights -->
+                <VBox spacing="8">
+                    <Label text="Smart Insights" styleClass="section-title"/>
+                    <VBox fx:id="recommendationsContainer" spacing="6"/>
+                </VBox>
+
+                <!-- Info / messages -->
+                <Label fx:id="infoLabel"
+                       text=""
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- BOTTOM NAV -->
+    <bottom>
+        <fx:include source="BottomNav.fxml" fx:id="bottomNav"/>
+    </bottom>
+
+</BorderPane>

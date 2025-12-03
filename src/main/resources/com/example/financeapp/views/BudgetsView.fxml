@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.financeapp.controllers.BudgetsController"
+            prefWidth="420" prefHeight="760"
+            styleClass="background-gradient">
+
+    <!-- HEADER -->
+    <top>
+        <VBox spacing="4">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+
+            <Label text="Budgets" styleClass="title"/>
+            <Label text="Set monthly limits by category" styleClass="subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- TABLE -->
+            <TableView fx:id="budgetsTable" prefHeight="250">
+                <columns>
+                    <TableColumn fx:id="categoryColumn" text="Category" prefWidth="200" />
+                    <TableColumn fx:id="limitColumn" text="Monthly Limit ($)" prefWidth="200" />
+                </columns>
+            </TableView>
+
+            <!-- FORM -->
+            <HBox spacing="10">
+                <Label text="Category:" />
+                <ComboBox fx:id="categoryCombo" prefWidth="150" />
+
+                <Label text="Monthly Limit:" />
+                <TextField fx:id="limitField" promptText="e.g. 300" prefWidth="100" />
+
+                <Button fx:id="saveButton" text="Save / Update" />
+            </HBox>
+
+            <!-- INFO / ERROR LABEL -->
+            <Label fx:id="infoLabel" text=""
+                   style="-fx-font-size: 12px; -fx-text-fill: #666;" />
+        </VBox>
+    </center>
+
+    <!-- BOTTOM NAV -->
+    <bottom>
+        <fx:include source="BottomNav.fxml" fx:id="bottomNav"/>
+    </bottom>
+
+</BorderPane>
