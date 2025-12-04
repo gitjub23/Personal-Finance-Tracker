@@ -15,6 +15,11 @@ public class Main extends Application {
         SceneManager.switchTo("LoginView");
 
         stage.setTitle("Finance App");
+
+        stage.setResizable(true);
+        stage.setMinWidth(500);
+        stage.setMinHeight(800);
+
         stage.show();
     }
 

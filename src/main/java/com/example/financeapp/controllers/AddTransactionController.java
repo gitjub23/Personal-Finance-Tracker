@@ -1,5 +1,6 @@
 package com.example.financeapp.controllers;
 
+import com.example.financeapp.models.Categories;
 import com.example.financeapp.models.Transaction;
 import com.example.financeapp.models.TransactionManager;
 import com.example.financeapp.models.User;
@@ -29,10 +30,7 @@ public class AddTransactionController {
     @FXML
     private void initialize() {
         // Categories
-        categoryCombo.getItems().setAll(
-                "Food", "Transportation", "Salary", "Entertainment",
-                "Shopping", "Bills", "Health", "Other"
-        );
+        categoryCombo.getItems().setAll(Categories.getDefaultExpenseCategories());
 
         // Default date
         if (datePicker.getValue() == null) {

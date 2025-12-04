@@ -1,9 +1,6 @@
 package com.example.financeapp.controllers;
 
-import com.example.financeapp.models.Budget;
-import com.example.financeapp.models.BudgetManager;
-import com.example.financeapp.models.TransactionManager;
-import com.example.financeapp.models.User;
+import com.example.financeapp.models.*;
 import com.example.financeapp.navigation.SceneManager;
 import com.example.financeapp.session.Session;
 import javafx.collections.FXCollections;
@@ -46,10 +43,7 @@ public class BudgetsController {
         limitColumn.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getMonthlyLimit()));
 
-        categoryCombo.getItems().addAll(
-                "Food", "Transportation", "Salary", "Entertainment",
-                "Shopping", "Bills", "Health", "Other"
-        );
+        categoryCombo.getItems().setAll(Categories.getDefaultExpenseCategories());
 
         loadBudgets();
 

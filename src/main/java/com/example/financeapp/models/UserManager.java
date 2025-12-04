@@ -24,16 +24,16 @@ public class UserManager {
 
     private void createTableIfNotExists() {
         String createSql = """
-            CREATE TABLE IF NOT EXISTS users (
+             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE NOT NULL,
-                email TEXT UNIQUE NOT NULL,
+                username TEXT NOT NULL COLLATE NOCASE UNIQUE,
+                email TEXT NOT NULL COLLATE NOCASE UNIQUE,
                 password_hash TEXT NOT NULL,
                 salt TEXT NOT NULL,
                 goal TEXT,
                 currency_code TEXT NOT NULL DEFAULT 'USD'
-            );
-            """;
+             );
+         """;
 
         try (Connection conn = Database.getConnection();
              Statement stmt = conn.createStatement()) {
@@ -77,9 +77,9 @@ public class UserManager {
         String defaultCurrency = "USD";
 
         String sql = """
-            INSERT INTO users(username, email, password_hash, salt, goal, currency_code)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """;
+        INSERT INTO users(username, email, password_hash, salt, goal, currency_code)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """;
 
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -95,8 +95,12 @@ public class UserManager {
             return true;
 
         } catch (SQLException e) {
-            System.err.println("Register error: " + e.getMessage());  // <--- helpful
-            e.printStackTrace();
+            // UNIQUE constraint is a normal "user already exists" case; no need for full stacktrace.
+            if (e.getMessage() != null && e.getMessage().contains("UNIQUE constraint failed")) {
+                System.err.println("Register error: username or email already exists (" + e.getMessage() + ")");
+            } else {
+                e.printStackTrace();
+            }
             return false;
         }
     }

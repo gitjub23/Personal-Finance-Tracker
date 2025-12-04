@@ -1,9 +1,6 @@
 package com.example.financeapp.controllers;
 
-import com.example.financeapp.models.Budget;
-import com.example.financeapp.models.BudgetManager;
-import com.example.financeapp.models.User;
-import com.example.financeapp.models.UserManager;
+import com.example.financeapp.models.*;
 import com.example.financeapp.navigation.SceneManager;
 import com.example.financeapp.session.Session;
 import javafx.fxml.FXML;
@@ -79,10 +76,7 @@ public class SettingsController {
     }
 
     private void loadBudgetCategories() {
-        budgetCategoryBox.getItems().setAll(
-                "Food", "Shopping", "Bills", "Entertainment",
-                "Transport", "Health", "Other"
-        );
+        budgetCategoryBox.getItems().setAll(Categories.getDefaultExpenseCategories());
     }
 
     private void handleAddOrUpdateBudget() {
