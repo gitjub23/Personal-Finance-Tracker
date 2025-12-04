@@ -27,13 +27,13 @@
         <!-- Login Card -->
         <VBox spacing="20" styleClass="auth-card" alignment="CENTER" maxWidth="360">
 
-            <!-- Email -->
+            <!-- Email or Username -->
             <HBox spacing="12" alignment="CENTER_LEFT" styleClass="input-field" maxWidth="Infinity">
                 <ImageView fitHeight="20" preserveRatio="true">
                     <Image url="@../icons/mail.png"/>
                 </ImageView>
                 <TextField fx:id="emailField"
-                           promptText="example@gmail.com"
+                           promptText="Email or username"
                            HBox.hgrow="ALWAYS"/>
             </HBox>
 
@@ -49,11 +49,12 @@
 
             <!-- Remember me + Forgot password -->
             <HBox spacing="10" alignment="CENTER_LEFT" maxWidth="300">
-                <CheckBox fx:id="rememberMe"/>
+                <CheckBox fx:id="rememberMeCheckBox"/>
                 <Label text="Remember me"/>
 
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Hyperlink text="Forgot password?"/>
+                <Hyperlink text="Forgot password?"
+                           onAction="#handleForgotPassword"/>
             </HBox>
 
             <!-- Sign In Button -->

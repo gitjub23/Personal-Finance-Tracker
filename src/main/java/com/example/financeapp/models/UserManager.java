@@ -113,7 +113,8 @@ public class UserManager {
      * @return User object if successful, null otherwise
      */
     public User login(String usernameOrEmail, String password) {
-        String sql = "SELECT * FROM users WHERE username = ? OR email = ?";
+        String sql = "SELECT * FROM users " +
+                "WHERE LOWER(username) = LOWER(?) OR LOWER(email) = LOWER(?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -199,6 +200,47 @@ public class UserManager {
     }
 
     // ==========================
+    // LOAD BY EMAIL (for Forgot Password)
+    // ==========================
+
+    // ==========================
+    // LOAD BY EMAIL OR USERNAME (for Forgot Password)
+    // ==========================
+    public User getUserByEmailOrUsername(String input) {
+        String sql = "SELECT * FROM users WHERE LOWER(email) = LOWER(?) OR LOWER(username) = LOWER(?)";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, input);
+            ps.setString(2, input);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return mapRowToUser(rs);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Resets password for the user with the given email or username.
+     * Returns true if a user was found and updated, false otherwise.
+     */
+    public boolean resetPassword(String emailOrUsername, String newPassword) {
+        User user = getUserByEmailOrUsername(emailOrUsername.trim());
+        if (user == null) {
+            System.out.println("resetPassword: no user found for input = " + emailOrUsername);
+            return false;
+        }
+        return updatePassword(user.getId(), newPassword);
+    }
+
+    // ==========================
     // HELPER
     // ==========================
 
@@ -213,8 +255,8 @@ public class UserManager {
     }
 
     // ==========================
-// UPDATE EMAIL
-// ==========================
+    // UPDATE EMAIL
+    // ==========================
     public boolean updateEmail(int userId, String newEmail) {
         String sql = "UPDATE users SET email = ? WHERE id = ?";
 
@@ -234,8 +276,8 @@ public class UserManager {
     }
 
     // ==========================
-// UPDATE PASSWORD
-// ==========================
+    // UPDATE PASSWORD
+    // ==========================
     public boolean updatePassword(int userId, String newPassword) {
         String newSalt = PasswordUtils.generateSalt();
         String newHash = PasswordUtils.hashPassword(newPassword, newSalt);
@@ -315,5 +357,26 @@ public class UserManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // In UserManager
+
+    public User getOrCreateOAuthUser(String email, String displayName) {
+        // 1) Try existing user
+        User existing = getUserByEmailOrUsername(email);
+        if (existing != null) {
+            return existing;
+        }
+
+        // 2) Otherwise auto-register one
+        String randomPassword = java.util.UUID.randomUUID().toString(); // never used directly
+        boolean ok = register(displayName, email, randomPassword, null);
+
+        if (!ok) {
+            return null;
+        }
+
+        // 3) Load and return the newly created user
+        return getUserByEmailOrUsername(email);
     }
 }

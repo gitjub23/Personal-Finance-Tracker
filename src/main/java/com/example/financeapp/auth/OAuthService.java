@@ -28,8 +28,7 @@ public class OAuthService {
     private static final String CLIENT_ID =
             "901864631846-vei0uigfmdttd9fpop06250me40r7v9e.apps.googleusercontent.com";
 
-    private static final String CLIENT_SECRET =
-            "client_secret_901864631846-vei0uigfmdttd9fpop06250me40r7v9e.apps.googleusercontent.com";
+    private static final String CLIENT_SECRET = "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";
 
     private static final String AUTH_ENDPOINT  = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
@@ -137,7 +136,137 @@ public class OAuthService {
         return response.body();
     }
 
-    // ---------- UTILITY ----------
+    // ---------- PUBLIC HELPERS: extract email & name ----------
+
+    /**
+     * Extracts the user's email from the token JSON returned by Google.
+     * It reads the "id_token", decodes the JWT payload, and returns the "email" field.
+     * Falls back to a pseudo-email based on "sub" if needed.
+     */
+    public static String extractEmail(String tokenJson) {
+        if (tokenJson == null || tokenJson.isBlank()) {
+            return null;
+        }
+
+        // For debugging: see exactly what Google sent back
+        System.out.println("Google token response: " + tokenJson);
+
+        // 1) Try id_token payload first (standard OpenID Connect)
+        String idToken = extractJsonStringValue(tokenJson, "id_token");
+        if (idToken != null && !idToken.isBlank()) {
+            String payloadJson = decodeJwtPayload(idToken);
+            System.out.println("Google id_token payload: " + payloadJson);
+
+            if (payloadJson != null) {
+                String email = extractJsonStringValue(payloadJson, "email");
+                if (email != null && !email.isBlank()) {
+                    return email;
+                }
+
+                // Fallback: use "sub" as a stable unique identifier
+                String sub = extractJsonStringValue(payloadJson, "sub");
+                if (sub != null && !sub.isBlank()) {
+                    // pseudo-email so DB unique constraints still work
+                    return sub + "@google-oauth.local";
+                }
+            }
+        }
+
+        // 2) Very last resort: maybe "email" exists at top level
+        String emailTop = extractJsonStringValue(tokenJson, "email");
+        if (emailTop != null && !emailTop.isBlank()) {
+            return emailTop;
+        }
+
+        return null;
+    }
+
+    /**
+     * Extracts a display name from the token JSON: prefers "name", then combines
+     * "given_name" and "family_name" if needed. Falls back to the email if necessary.
+     */
+    public static String extractName(String tokenJson) {
+        if (tokenJson == null || tokenJson.isBlank()) {
+            return null;
+        }
+
+        String idToken = extractJsonStringValue(tokenJson, "id_token");
+        if (idToken != null && !idToken.isBlank()) {
+            String payloadJson = decodeJwtPayload(idToken);
+            if (payloadJson != null) {
+                String name = extractJsonStringValue(payloadJson, "name");
+                if (name != null && !name.isBlank()) {
+                    return name;
+                }
+
+                String given = extractJsonStringValue(payloadJson, "given_name");
+                String family = extractJsonStringValue(payloadJson, "family_name");
+                if (given != null || family != null) {
+                    StringBuilder sb = new StringBuilder();
+                    if (given != null) sb.append(given);
+                    if (family != null) {
+                        if (sb.length() > 0) sb.append(' ');
+                        sb.append(family);
+                    }
+                    return sb.toString();
+                }
+            }
+        }
+
+        // fallback: maybe "name" is at top level
+        String topName = extractJsonStringValue(tokenJson, "name");
+        if (topName != null && !topName.isBlank()) {
+            return topName;
+        }
+
+        // final fallback: use email (if available)
+        String email = extractEmail(tokenJson);
+        return email;
+    }
+
+    /**
+     * Very small JSON helper to extract a string value from a flat JSON object.
+     * Assumes the value is in the form "key":"value" (ignores whitespace).
+     */
+    private static String extractJsonStringValue(String json, String key) {
+        if (json == null || key == null) return null;
+
+        String pattern = "\"" + key + "\"";
+        int keyIndex = json.indexOf(pattern);
+        if (keyIndex == -1) return null;
+
+        int colonIndex = json.indexOf(':', keyIndex + pattern.length());
+        if (colonIndex == -1) return null;
+
+        // move to first quote of the value
+        int firstQuote = json.indexOf('"', colonIndex + 1);
+        if (firstQuote == -1) return null;
+
+        int secondQuote = json.indexOf('"', firstQuote + 1);
+        if (secondQuote == -1) return null;
+
+        return json.substring(firstQuote + 1, secondQuote);
+    }
+
+    /**
+     * Decodes the payload (2nd part) of a JWT into a JSON string.
+     */
+    private static String decodeJwtPayload(String jwt) {
+        try {
+            String[] parts = jwt.split("\\.");
+            if (parts.length < 2) return null;
+
+            String payloadPart = parts[1];
+            // Base64 URL-safe decode
+            byte[] decoded = Base64.getUrlDecoder().decode(payloadPart);
+            return new String(decoded, StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to decode JWT payload: " + e.getMessage());
+            return null;
+        }
+    }
+
+    // ---------- GENERAL UTILITY ----------
 
     private static int findFreePort() throws IOException {
         try (ServerSocket socket = new ServerSocket(0)) {

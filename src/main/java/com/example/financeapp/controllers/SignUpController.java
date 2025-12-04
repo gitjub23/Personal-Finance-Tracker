@@ -1,9 +1,11 @@
 package com.example.financeapp.controllers;
 
 import com.example.financeapp.auth.OAuthService;
+import com.example.financeapp.models.User;
 import com.example.financeapp.models.UserManager;
 import com.example.financeapp.navigation.SceneManager;
 import com.example.financeapp.session.Session;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -85,14 +87,38 @@ public class SignUpController {
         OAuthService.loginWithGoogle(new OAuthService.OAuthCallback() {
             @Override
             public void onSuccess(String tokenJson) {
-                // Mark as logged in via OAuth
-                Session.setOAuthLogin(tokenJson);
-                SceneManager.switchTo("Dashboard");   // redirect after success
+                Platform.runLater(() -> {
+                    String email = OAuthService.extractEmail(tokenJson);
+                    String name  = OAuthService.extractName(tokenJson);
+
+                    if (email == null || email.isBlank()) {
+                        showError("Could not read your Google account email.");
+                        return;
+                    }
+
+                    // Create or load a local user for this Google account
+                    User user = userManager.getOrCreateOAuthUser(
+                            email,
+                            (name == null || name.isBlank()) ? email : name
+                    );
+
+                    if (user == null) {
+                        showError("Could not create a local user for your Google account.");
+                        return;
+                    }
+
+                    Session.setCurrentUser(user);
+                    Session.setOAuthLogin(tokenJson);
+
+                    SceneManager.switchTo("Dashboard");
+                });
             }
 
             @Override
             public void onError(String message) {
-                showError("Google Sign-Up ERROR: " + message);
+                Platform.runLater(() ->
+                        showError("Google Sign-Up ERROR: " + message)
+                );
             }
         });
     }
@@ -105,13 +131,37 @@ public class SignUpController {
         OAuthService.loginWithApple(new OAuthService.OAuthCallback() {
             @Override
             public void onSuccess(String tokenJson) {
-                Session.setOAuthLogin(tokenJson);
-                SceneManager.switchTo("Dashboard");   // redirect after success
+                Platform.runLater(() -> {
+                    String email = OAuthService.extractEmail(tokenJson);
+                    String name  = OAuthService.extractName(tokenJson);
+
+                    if (email == null || email.isBlank()) {
+                        showError("Could not read your Apple account email.");
+                        return;
+                    }
+
+                    User user = userManager.getOrCreateOAuthUser(
+                            email,
+                            (name == null || name.isBlank()) ? email : name
+                    );
+
+                    if (user == null) {
+                        showError("Could not create a local user for your Apple account.");
+                        return;
+                    }
+
+                    Session.setCurrentUser(user);
+                    Session.setOAuthLogin(tokenJson);
+
+                    SceneManager.switchTo("Dashboard");
+                });
             }
 
             @Override
             public void onError(String message) {
-                showError("Apple Sign-Up ERROR: " + message);
+                Platform.runLater(() ->
+                        showError("Apple Sign-Up ERROR: " + message)
+                );
             }
         });
     }

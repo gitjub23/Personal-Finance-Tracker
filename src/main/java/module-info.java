@@ -10,6 +10,7 @@ module com.example.financeapp {
     requires com.github.librepdf.openpdf;
     requires org.apache.poi.ooxml;
     requires org.xerial.sqlitejdbc;
+    requires java.prefs;
 
     opens com.example.financeapp to javafx.fxml;
     opens com.example.financeapp.controllers to javafx.fxml;
