@@ -11,6 +11,7 @@ module com.example.financeapp {
     requires org.apache.poi.ooxml;
     requires org.xerial.sqlitejdbc;
     requires java.prefs;
+    requires org.json;
 
     opens com.example.financeapp to javafx.fxml;
     opens com.example.financeapp.controllers to javafx.fxml;
